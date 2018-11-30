@@ -1,0 +1,63 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Django Blog</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+	<body>
+
+     <header>
+          <a href="{% url "home" %}">
+          <img
+          src="{% static 'logo.png' %}"
+          alt=""
+          class="logo-img"
+          >
+     </a>
+     </header>
+
+     <nav>
+          <ul>
+          {% if user.is_authenticated %}
+               <li>
+                    <form class="logout-link" method="post" action="{% url "accounts:logout_view" %}">
+                         {% csrf_token %}
+                         <input class="logout" type="submit" value="Logout">
+                    </form>
+               </li>
+
+               <li><a href="{% url "articles:article_create" %}" class="">
+                    Create New Article
+               </a></li>
+
+          {% else %}
+           <li>
+               <a href="{% url "accounts:login_view" %}">
+                    Login
+               </a>
+          </li>
+
+          <li>
+              <a href="{% url "accounts:signup_view" %}">
+                    SignUp
+               </a>
+          </li>
+          {% endif %}
+
+          </ul>
+
+     </nav>
+
+     <div class="wrapper">
+
+     	{% block content %}
+
+     	{% endblock content %}
+     </div>
+
+	</body>
+</html>
+
